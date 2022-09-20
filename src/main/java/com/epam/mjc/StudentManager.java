@@ -7,10 +7,11 @@ public class StudentManager {
 
   public Student find(long studentID) throws StudentNotFoundException {
 
-    try {
-        return Student.getValueOf(studentID);
-    } catch (StudentNotFoundException ex) {
-        throw new StudentNotFoundException("Could not find student with ID " + studentID);
+    if (studentID <= 11) {
+      return Student.getValueOf(studentID);
+    } else {
+      throw new StudentNotFoundException(
+              "Could not find student with ID " + studentID);
     }
   }
 
@@ -18,9 +19,13 @@ public class StudentManager {
     StudentManager manager = new StudentManager();
 
     for (int i = 0; i < IDs.length; i++) {
-      Student student = manager.find(IDs[i]);
-      System.out.println("Student name " + student.getName());
-    }
 
+      try {
+        Student student = manager.find(IDs[i]);
+        System.out.println("Student name " + student.getName());
+      } catch (StudentNotFoundException ex) {
+        System.err.print(ex);
+      }
+    }
   }
 }
